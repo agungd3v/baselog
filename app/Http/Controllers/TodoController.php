@@ -19,6 +19,22 @@ class TodoController extends Controller
             'message' => $todo
         ]);
     }
+    public function update(Request $request) {
+        $todo = Todolist::where('id', $request['id'])->first();
+        if (!$todo) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Oops, card not valid!'
+            ]);
+        }
+        $todo->title = $request['title'];
+        $todo->description = $request['description'];
+        $todo->save();
+        return response()->json([
+            'status' => true,
+            'message' => $todo
+        ]);
+    }
     public function changetodos(Request $request) {
         $todo = Todolist::where('id', $request['id'])->first();
         if (!$todo) {

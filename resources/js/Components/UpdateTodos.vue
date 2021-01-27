@@ -5,31 +5,19 @@
       persistent
       max-width="512"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          depressed
-          small
-          color="success"
-          class="focus:outline-none"
-          v-bind="attrs"
-          v-on="on"
-        >
-          Create Todos
-        </v-btn>
-      </template>
       <v-card>
         <v-card-title class="headline">
-          Create Todo
+          Update Todo
         </v-card-title>
         <v-card-text>
           <v-text-field
-            v-model="title"
+            v-model="cardExist.title"
             color="success"
             label="Todo Title"
             hint="For example, testing todos one"
           ></v-text-field>
           <v-textarea
-            v-model="description"
+            v-model="cardExist.description"
             rows="3"
             color="success"
           >
@@ -46,7 +34,7 @@
             class="focus:outline-none"
             color="green darken-1"
             text
-            @click="dialog = false"
+            @click="closeUpdate(false)"
           >
             Discard
           </v-btn>
@@ -56,7 +44,7 @@
             text
             :loading="loading"
             :disabled="loading"
-            @click="storeTodo"
+            @click="updateTodo"
           >
             Save
           </v-btn>
@@ -68,38 +56,39 @@
 <script>
   export default {
     name: 'CreateTodos',
-    props: ['progress'],
+    props: ['dialogOpen', 'data'],
     data () {
       return {
         dialog: false,
-        title: '',
-        description: '',
+        cardExist: {},
         // Loader
         loader: null,
         loading: false
       }
     },
+    watch: {
+      dialogOpen(open) {
+        if (open != this.dialog) return this.dialog = !this.dialog
+      },
+      data(v) {
+        return this.cardExist = v
+      }
+    },
     methods: {
-      async storeTodo() {
+      async updateTodo() {
         this.loader = 'loading'
         const l = this.loader
         this[l] = !this[l]
-        await axios.post('/todos/store', {
-          title: this.title,
-          description: this.description,
-          progress: this.progress
-        }).then((result) => {
-          this.$emit('newTodo', result.data.message)
-
-          this.title = ''
-          this.description = ''
-          
+        await axios.post('/todos/updatetodos', this.cardExist).then((result) => {
           this[l] = false
           this.loader = null
-          this.dialog = false
+          this.closeUpdate(false)
         }).catch((err) => {
           console.error(err)
         });
+      },
+      closeUpdate(value) {
+        return this.$emit('closeUpdate', value)
       }
     }
   }

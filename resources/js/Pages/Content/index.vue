@@ -8,7 +8,7 @@
           <div class="count-items absolute bg-white text-xs">{{ toDo.length }}</div>
         </div>
         <div
-          class="w-full flex h-20 flex-col gap-3"
+          class="w-full flex h-20 flex-col gap-3 px-1"
           style="width: 300px"
           @drop="onDrop($event, 1)"
           @dragover.prevent
@@ -20,6 +20,7 @@
             class="card px-5 py-2 bg-white rounded shadow cursor-pointer"
             draggable
             @dragstart="onDrag($event, item)"
+            @click="updateOpen(item)"
           >
             <h6 class="font-semibold leading-4">{{ item.title }}</h6>
             <span class="text-xs text-gray-600">{{ item.description }}</span>
@@ -35,7 +36,7 @@
           <div class="count-items absolute bg-white text-xs">{{ backLog.length }}</div>
         </div>
         <div
-          class="w-full flex h-20 flex-col gap-3"
+          class="w-full flex h-20 flex-col gap-3 px-1"
           style="width: 300px"
           @drop="onDrop($event, 2)"
           @dragover.prevent
@@ -47,6 +48,7 @@
             class="card px-5 py-2 bg-white rounded shadow cursor-pointer"
             draggable
             @dragstart="onDrag($event, item)"
+            @click="updateOpen(item)"
           >
             <h6 class="font-semibold leading-4">{{ item.title }}</h6>
             <span class="text-xs text-gray-600">{{ item.description }}</span>
@@ -62,7 +64,7 @@
           <div class="count-items absolute bg-white text-xs">{{ inProgress.length }}</div>
         </div>
         <div
-          class="w-full flex h-20 flex-col gap-3"
+          class="w-full flex h-20 flex-col gap-3 px-1"
           style="width: 300px"
           @drop="onDrop($event, 3)"
           @dragover.prevent
@@ -74,6 +76,7 @@
             class="card px-5 py-2 rounded shadow cursor-pointer"
             draggable
             @dragstart="onDrag($event, item)"
+            @click="updateOpen(item)"
           >
             <h6 class="font-semibold leading-4">{{ item.title }}</h6>
             <span class="text-xs text-gray-600">{{ item.description }}</span>
@@ -89,7 +92,7 @@
           <div class="count-items absolute bg-white text-xs">{{ complete.length }}</div>
         </div>
         <div
-          class="w-full flex h-20 flex-col gap-3"
+          class="w-full flex h-20 flex-col gap-3 px-1"
           style="width: 300px"
           @drop="onDrop($event, 4)"
           @dragover.prevent
@@ -101,6 +104,7 @@
             class="card px-5 py-2 rounded shadow cursor-pointer"
             draggable
             @dragstart="onDrag($event, item)"
+            @click="updateOpen(item)"
           >
             <h6 class="font-semibold leading-4">{{ item.title }}</h6>
             <span class="text-xs text-gray-600">{{ item.description }}</span>
@@ -110,20 +114,26 @@
           </div>
         </div>
       </div>
+      <update-todos :dialogOpen="openDialogUpdate" :data="existUpdate" @closeUpdate="updateClose" />
     </div>
   </content-layout>
 </template>
 <script>
 import ContentLayout from '@/Layouts/ContentLayout'
 import CreateTodos from '@/Components/CreateTodos'
+import UpdateTodos from '@/Components/UpdateTodos'
 export default {
   components: {
     ContentLayout,
-    CreateTodos
+    CreateTodos,
+    UpdateTodos
   },
   props: ['todolists'],
   data() {
-    return {}
+    return {
+      openDialogUpdate: false,
+      existUpdate: {}
+    }
   },
   computed: {
     toDo() {
@@ -157,6 +167,14 @@ export default {
       }).catch((err) => {
         console.error(err)
       });
+    },
+    updateOpen(value) {
+      this.openDialogUpdate = true
+      this.existUpdate = value
+    },
+    updateClose(value) {
+      this.openDialogUpdate = value
+      this.existUpdate = {}
     },
     entryTodo(newValue) {
       return this.todolists.push(newValue)

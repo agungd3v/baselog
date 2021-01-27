@@ -30,6 +30,7 @@ Route::get('/baseon', [PageController::class, 'index']);
 
 Route::group(['prefix' => 'todos'], function() {
     Route::post('/store', [TodoController::class, 'store']);
+    Route::post('/updatetodos', [TodoController::class, 'update']);
     Route::post('/changetodos', [TodoController::class, 'changetodos']);
 });
 
