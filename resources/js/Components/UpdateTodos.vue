@@ -10,6 +10,33 @@
           Update Todo
         </v-card-title>
         <v-card-text>
+          <v-combobox
+            v-model="selectedAssign"
+            :items="dataUser"
+            item-text="name"
+            item-value="id"
+            label="Assign To"
+            color="success"
+            clearable
+            chips
+          >
+            <template v-slot:selection="data">
+              <v-chip
+                :key="JSON.stringify(data.item)"
+                v-bind="data.attrs"
+                :input-value="data.selected"
+                :disabled="data.disabled"
+                @click:close="data.parent.selectItem(data.item)"
+              >
+                <v-avatar
+                  class="success white--text"
+                  left
+                  v-text="data.item.name.slice(0, 1).toUpperCase()"
+                ></v-avatar>
+                {{ data.item.name }}
+              </v-chip>
+            </template>
+          </v-combobox>
           <v-text-field
             v-model="cardExist.title"
             color="success"
@@ -27,6 +54,32 @@
               </div>
             </template>
           </v-textarea>
+          <v-label>Due Date</v-label>
+          <v-radio-group
+            v-model="dueDate"
+            class="mt-1"
+            mandatory
+            row
+          >
+            <v-radio
+              label="No specific date"
+              color="success"
+              :value="false"
+            ></v-radio>
+            <v-radio
+              label="Set specific date"
+              color="success"
+              :value="true"
+              @click="openDate(true)"
+            ></v-radio>
+            <div
+              v-if="dueDate"
+              class="flex justify-end items-center text-sm"
+            >
+              <v-icon color="success">mdi-calendar</v-icon>
+              <span class="ml-1 text-success">{{ new Date(cardExist.due_date).toISOString().substr(0, 10) }}</span>
+            </div>
+          </v-radio-group>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -50,17 +103,31 @@
           </v-btn>
         </v-card-actions>
       </v-card>
+      <v-dialog
+        v-model="dialogDueDate"
+        max-width="290"
+      >
+        <v-card>
+          <v-date-picker v-model="cardExist.due_date" color="success" class="focus:outline-none"></v-date-picker>
+        </v-card>
+      </v-dialog>
     </v-dialog>
   </div>
 </template>
 <script>
   export default {
     name: 'CreateTodos',
-    props: ['dialogOpen', 'data'],
+    props: ['dialogOpen', 'dataTodo', 'dataUser'],
     data () {
       return {
+        // dialog
         dialog: false,
+        dialogDueDate: false,
+        // data
         cardExist: {},
+        selectedAssign: null,
+        selectedDueDate: new Date().toISOString().substr(0, 10),
+        dueDate: false,
         // Loader
         loader: null,
         loading: false
@@ -70,8 +137,22 @@
       dialogOpen(open) {
         if (open != this.dialog) return this.dialog = !this.dialog
       },
-      data(v) {
-        return this.cardExist = v
+      dataTodo(v) {
+        this.cardExist = v
+        this.selectedAssign = this.dataUser.find(data => data.id === this.cardExist.assign_to ? data : null)
+        if (this.cardExist.due_date != null) {
+          this.dueDate = true
+        } else {
+          this.dueDate = false
+        }
+      },
+      dueDate(tf) {
+        if (!tf) return this.cardExist.due_date = null
+        this.cardExist.due_date = this.selectedDueDate
+      },
+      selectedAssign(sa) {
+        if (sa == null) return this.cardExist.assign_to = null
+        this.cardExist.assign_to = this.selectedAssign.id
       }
     },
     methods: {
@@ -89,6 +170,9 @@
       },
       closeUpdate(value) {
         return this.$emit('closeUpdate', value)
+      },
+      openDate(open) {
+        return this.dialogDueDate = open
       }
     }
   }

@@ -15,9 +15,12 @@ class CreateTodolistsTable extends Migration
     {
         Schema::create('todolists', function (Blueprint $table) {
             $table->id();
+            $table->integer('group_id');
             $table->string('title')->default('');
             $table->string('description')->default('');
-            $table->integer('assign');
+            $table->integer('created_by');
+            $table->integer('assign_to')->nullable();
+            $table->timestamp('due_date')->nullable();
             $table->integer('progress')->default(1);
             $table->timestamps();
         });

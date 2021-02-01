@@ -79,6 +79,7 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
+                    iam: 'Administrator',
                     terms: false,
                 })
             }

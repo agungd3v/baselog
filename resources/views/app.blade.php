@@ -9,6 +9,7 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.7.55/css/materialdesignicons.min.css" integrity="sha512-Yy8l8Uirb3w3G8SP+l7UwwzxRhZsGkmAqN7TFG6MT5nZi1VOkpo+hg3OrEl66fngrGAeL8LlUEoXfT6fRina6g==" crossorigin="anonymous" />
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
