@@ -43,6 +43,9 @@
             @dragstart="onDrag($event, item)"
             @click="updateOpen(item)"
           >
+            <div class="flex items-center justify-end mb-2">
+              <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
+            </div>
             <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
             <div
               v-if="item.assign_to != null"
@@ -92,6 +95,9 @@
             @dragstart="onDrag($event, item)"
             @click="updateOpen(item)"
           >
+            <div class="flex items-center justify-end mb-2">
+              <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
+            </div>
             <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
             <div
               v-if="item.assign_to != null"
@@ -141,6 +147,9 @@
             @dragstart="onDrag($event, item)"
             @click="updateOpen(item)"
           >
+            <div class="flex items-center justify-end mb-2">
+              <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
+            </div>
             <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
             <div
               v-if="item.assign_to != null"
@@ -187,6 +196,9 @@
             @dragstart="onDrag($event, item)"
             @click="updateOpen(item)"
           >
+            <div class="flex items-center justify-end mb-2">
+              <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
+            </div>
             <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
             <div
               v-if="item.assign_to != null"

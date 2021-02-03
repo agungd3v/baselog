@@ -147,8 +147,8 @@
         }
       },
       dueDate(tf) {
-        if (!tf) return this.cardExist.due_date = null
-        this.cardExist.due_date = this.selectedDueDate
+        if (tf) return this.cardExist.due_date == null ? this.cardExist.due_date = this.selectedDueDate : this.selectedDueDate = this.cardExist.due_date
+        this.cardExist.due_date = null
       },
       selectedAssign(sa) {
         if (sa == null) return this.cardExist.assign_to = null

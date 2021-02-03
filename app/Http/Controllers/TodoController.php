@@ -36,7 +36,7 @@ class TodoController extends Controller
         $todo->title = $request['title'];
         $todo->description = $request['description'];
         $todo->assign_to = $request['assign_to'] === null ? null : $request['assign_to'];
-        $todo->due_date = $request['duedate'];
+        $todo->due_date = $request['due_date'] === null ? null : $request['due_date'];
         $todo->save();
         return response()->json([
             'status' => true,
