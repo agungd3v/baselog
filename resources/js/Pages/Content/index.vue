@@ -1,252 +1,254 @@
 <template>
   <content-layout>
-    <h2 class="text-3xl font-semibold text-center my-5">BASELOG</h2>
-    <div class="flex gap-4 mx-5 overflow-x-auto">
-      <div>
-        <div
-          class="border-b py-1 mb-3 relative"
-        >
-          <small class="font-semibold">{{ usersofgroup.name }} <sup class="success--text font-normal">({{ usersofgroup.user.length }})</sup></small>
-        </div>
-        <div class="w-full py-1">
+    <div class="h-screen overflow-y-hidden">
+      <h2 class="text-3xl font-semibold text-center my-5">BASELOG</h2>
+      <div class="flex gap-4 mx-5 overflow-x-auto" style="height: 90vh">
+        <div>
           <div
-            v-for="(user, index) in usersofgroup.user"
-            :key="index"
-            style="width: 125px"
-            class="px-1 py-1 truncate text-sm text-gray-500"
+            class="border-b py-1 mb-3 relative"
           >
-            <img :src="user.profile_photo_url" :alt="user.name" class="w-8 h-8 rounded-full inline-block mr-1">
-            {{ user.name }}
+            <small class="font-semibold">{{ usersofgroup.name }} <sup class="success--text font-normal">({{ usersofgroup.user.length }})</sup></small>
+          </div>
+          <div class="w-full py-1">
+            <div
+              v-for="(user, index) in usersofgroup.user"
+              :key="index"
+              style="width: 125px"
+              class="px-1 py-1 truncate text-sm text-gray-500"
+            >
+              <img :src="user.profile_photo_url" :alt="user.name" class="w-8 h-8 rounded-full inline-block mr-1">
+              {{ user.name }}
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div class="border-b py-1 px-2 mb-3 relative">
-          To Do
-          <div class="count-items absolute bg-white text-xs">{{ toDo.length }}</div>
-        </div>
-        <div class="create-todos px-1 mb-2">
-          <create-todos :progress="1" :anyUsers="usersofgroup.user" @newTodo="entryTodo" />
-        </div>
-        <div
-          class="w-full flex h-20 flex-col gap-3 py-1 px-1 overflow-y-auto"
-          style="width: 300px; height: 70vh"
-          @drop="onDrop($event, 1)"
-          @dragover.prevent
-          @dragenter.prevent
-        >
+        <div>
+          <div class="border-b py-1 px-2 mb-3 relative">
+            To Do
+            <div class="count-items absolute bg-white text-xs">{{ toDo.length }}</div>
+          </div>
+          <div class="create-todos px-1 mb-2">
+            <create-todos :progress="1" :anyUsers="usersofgroup.user" @newTodo="entryTodo" />
+          </div>
           <div
-            v-for="(item, index) in toDo"
-            :key="index"
-            class="card px-5 py-2 bg-white rounded shadow cursor-pointer"
-            draggable
-            @dragstart="onDrag($event, item)"
-            @click="updateOpen(item)"
+            class="w-full flex h-20 flex-col gap-3 py-1 px-1 overflow-y-auto"
+            style="width: 300px; height: 70vh"
+            @drop="onDrop($event, 1)"
+            @dragover.prevent
+            @dragenter.prevent
           >
-            <div class="flex items-center justify-between mb-3 mt-1">
-              <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
-                <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
-                <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
-              </div>
-              <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
-            </div>
-            <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
             <div
-              v-if="item.assign_to != null"
-              class="text-xs text-gray-500 my-2"
+              v-for="(item, index) in toDo"
+              :key="index"
+              class="card px-5 py-2 bg-white rounded shadow cursor-pointer"
+              draggable
+              @dragstart="onDrag($event, item)"
+              @click="updateOpen(item)"
             >
+              <div class="flex items-center justify-between mb-3 mt-1">
+                <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
+                  <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
+                  <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
+                </div>
+                <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
+              </div>
+              <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
               <div
-                v-for="(user, index) in usersofgroup.user"
-                :key="index"
+                v-if="item.assign_to != null"
+                class="text-xs text-gray-500 my-2"
               >
                 <div
-                  v-if="user.id === item.assign_to"
-                  style="width: 250px"
-                  class="truncate"
+                  v-for="(user, index) in usersofgroup.user"
+                  :key="index"
                 >
-                  <img
-                    :src="user.profile_photo_url"
-                    :alt="user.name"
-                    class="w-6 h-6 mb-1 rounded-full inline-block mr-1"
-                  />
-                  {{ user.name }} 
+                  <div
+                    v-if="user.id === item.assign_to"
+                    style="width: 250px"
+                    class="truncate"
+                  >
+                    <img
+                      :src="user.profile_photo_url"
+                      :alt="user.name"
+                      class="w-6 h-6 mb-1 rounded-full inline-block mr-1"
+                    />
+                    {{ user.name }} 
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div class="border-b py-1 px-2 mb-3 relative">
-          Backlog
-          <div class="count-items absolute bg-white text-xs">{{ backLog.length }}</div>
-        </div>
-        <div class="create-todos px-1 mb-2">
-          <create-todos :progress="2" :anyUsers="usersofgroup.user" @newTodo="entryTodo" />
-        </div>
-        <div
-          class="w-full flex h-20 flex-col gap-3 py-1 px-1 overflow-y-auto"
-          style="width: 300px; height: 70vh"
-          @drop="onDrop($event, 2)"
-          @dragover.prevent
-          @dragenter.prevent
-        >
+        <div>
+          <div class="border-b py-1 px-2 mb-3 relative">
+            Backlog
+            <div class="count-items absolute bg-white text-xs">{{ backLog.length }}</div>
+          </div>
+          <div class="create-todos px-1 mb-2">
+            <create-todos :progress="2" :anyUsers="usersofgroup.user" @newTodo="entryTodo" />
+          </div>
           <div
-            v-for="(item, index) in backLog"
-            :key="index"
-            class="card px-5 py-2 bg-white rounded shadow cursor-pointer"
-            draggable
-            @dragstart="onDrag($event, item)"
-            @click="updateOpen(item)"
+            class="w-full flex h-20 flex-col gap-3 py-1 px-1 overflow-y-auto"
+            style="width: 300px; height: 70vh"
+            @drop="onDrop($event, 2)"
+            @dragover.prevent
+            @dragenter.prevent
           >
-            <div class="flex items-center justify-between mb-3 mt-1">
-              <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
-                <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
-                <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
-              </div>
-              <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
-            </div>
-            <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
             <div
-              v-if="item.assign_to != null"
-              class="text-xs text-gray-500 my-2"
+              v-for="(item, index) in backLog"
+              :key="index"
+              class="card px-5 py-2 bg-white rounded shadow cursor-pointer"
+              draggable
+              @dragstart="onDrag($event, item)"
+              @click="updateOpen(item)"
             >
+              <div class="flex items-center justify-between mb-3 mt-1">
+                <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
+                  <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
+                  <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
+                </div>
+                <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
+              </div>
+              <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
               <div
-                v-for="(user, index) in usersofgroup.user"
-                :key="index"
+                v-if="item.assign_to != null"
+                class="text-xs text-gray-500 my-2"
               >
                 <div
-                  v-if="user.id === item.assign_to"
-                  style="width: 250px"
-                  class="truncate"
+                  v-for="(user, index) in usersofgroup.user"
+                  :key="index"
                 >
-                  <img
-                    :src="user.profile_photo_url"
-                    :alt="user.name"
-                    class="w-6 h-6 mb-1 rounded-full inline-block mr-1"
-                  />
-                  {{ user.name }} 
+                  <div
+                    v-if="user.id === item.assign_to"
+                    style="width: 250px"
+                    class="truncate"
+                  >
+                    <img
+                      :src="user.profile_photo_url"
+                      :alt="user.name"
+                      class="w-6 h-6 mb-1 rounded-full inline-block mr-1"
+                    />
+                    {{ user.name }} 
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div class="border-b py-1 px-2 mb-3 relative">
-          In Progress
-          <div class="count-items absolute bg-white text-xs">{{ inProgress.length }}</div>
-        </div>
-        <div class="create-todos px-1 mb-2">
-          <create-todos :progress="3" :anyUsers="usersofgroup.user" @newTodo="entryTodo" />
-        </div>
-        <div
-          class="w-full flex h-20 flex-col gap-3 py-1 px-1 overflow-y-auto"
-          style="width: 300px; height: 70vh"
-          @drop="onDrop($event, 3)"
-          @dragover.prevent
-          @dragenter.prevent
-        >
+        <div>
+          <div class="border-b py-1 px-2 mb-3 relative">
+            In Progress
+            <div class="count-items absolute bg-white text-xs">{{ inProgress.length }}</div>
+          </div>
+          <div class="create-todos px-1 mb-2">
+            <create-todos :progress="3" :anyUsers="usersofgroup.user" @newTodo="entryTodo" />
+          </div>
           <div
-            v-for="(item, index) in inProgress"
-            :key="index"
-            class="card px-5 py-2 rounded shadow cursor-pointer"
-            draggable
-            @dragstart="onDrag($event, item)"
-            @click="updateOpen(item)"
+            class="w-full flex h-20 flex-col gap-3 py-1 px-1 overflow-y-auto"
+            style="width: 300px; height: 70vh"
+            @drop="onDrop($event, 3)"
+            @dragover.prevent
+            @dragenter.prevent
           >
-            <div class="flex items-center justify-between mb-3 mt-1">
-              <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
-                <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
-                <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
-              </div>
-              <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
-            </div>
-            <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
             <div
-              v-if="item.assign_to != null"
-              class="text-xs text-gray-500 my-2"
+              v-for="(item, index) in inProgress"
+              :key="index"
+              class="card px-5 py-2 rounded shadow cursor-pointer"
+              draggable
+              @dragstart="onDrag($event, item)"
+              @click="updateOpen(item)"
             >
+              <div class="flex items-center justify-between mb-3 mt-1">
+                <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
+                  <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
+                  <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
+                </div>
+                <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
+              </div>
+              <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
               <div
-                v-for="(user, index) in usersofgroup.user"
-                :key="index"
+                v-if="item.assign_to != null"
+                class="text-xs text-gray-500 my-2"
               >
                 <div
-                  v-if="user.id === item.assign_to"
-                  style="width: 250px"
-                  class="truncate"
+                  v-for="(user, index) in usersofgroup.user"
+                  :key="index"
                 >
-                  <img
-                    :src="user.profile_photo_url"
-                    :alt="user.name"
-                    class="w-6 h-6 mb-1 rounded-full inline-block mr-1"
-                  />
-                  {{ user.name }} 
+                  <div
+                    v-if="user.id === item.assign_to"
+                    style="width: 250px"
+                    class="truncate"
+                  >
+                    <img
+                      :src="user.profile_photo_url"
+                      :alt="user.name"
+                      class="w-6 h-6 mb-1 rounded-full inline-block mr-1"
+                    />
+                    {{ user.name }} 
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div class="border-b py-1 px-2 mb-3 relative">
-          Complete
-          <div class="count-items absolute bg-white text-xs">{{ complete.length }}</div>
-        </div>
-        <div
-          class="w-full flex h-20 flex-col gap-3 py-1 px-1 overflow-y-auto"
-          style="width: 300px; height: 70vh"
-          @drop="onDrop($event, 4)"
-          @dragover.prevent
-          @dragenter.prevent
-        >
+        <div>
+          <div class="border-b py-1 px-2 mb-3 relative">
+            Complete
+            <div class="count-items absolute bg-white text-xs">{{ complete.length }}</div>
+          </div>
           <div
-            v-for="(item, index) in complete"
-            :key="index"
-            class="card px-5 py-2 rounded shadow cursor-pointer"
-            draggable
-            @dragstart="onDrag($event, item)"
-            @click="updateOpen(item)"
+            class="w-full flex h-20 flex-col gap-3 py-1 px-1 overflow-y-auto"
+            style="width: 300px; height: 70vh"
+            @drop="onDrop($event, 4)"
+            @dragover.prevent
+            @dragenter.prevent
           >
-            <div class="flex items-center justify-between mb-3 mt-1">
-              <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
-                <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
-                <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
-              </div>
-              <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
-            </div>
-            <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
             <div
-              v-if="item.assign_to != null"
-              class="text-xs text-gray-500 my-2"
+              v-for="(item, index) in complete"
+              :key="index"
+              class="card px-5 py-2 rounded shadow cursor-pointer"
+              draggable
+              @dragstart="onDrag($event, item)"
+              @click="updateOpen(item)"
             >
+              <div class="flex items-center justify-between mb-3 mt-1">
+                <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
+                  <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
+                  <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
+                </div>
+                <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
+              </div>
+              <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
               <div
-                v-for="(user, index) in usersofgroup.user"
-                :key="index"
+                v-if="item.assign_to != null"
+                class="text-xs text-gray-500 my-2"
               >
                 <div
-                  v-if="user.id === item.assign_to"
-                  style="width: 250px"
-                  class="truncate"
+                  v-for="(user, index) in usersofgroup.user"
+                  :key="index"
                 >
-                  <img
-                    :src="user.profile_photo_url"
-                    :alt="user.name"
-                    class="w-6 h-6 mb-1 rounded-full inline-block mr-1"
-                  />
-                  {{ user.name }} 
+                  <div
+                    v-if="user.id === item.assign_to"
+                    style="width: 250px"
+                    class="truncate"
+                  >
+                    <img
+                      :src="user.profile_photo_url"
+                      :alt="user.name"
+                      class="w-6 h-6 mb-1 rounded-full inline-block mr-1"
+                    />
+                    {{ user.name }} 
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <update-todos :dialogOpen="openDialogUpdate" :dataTodo="existUpdate" :dataUser="usersofgroup.user" @closeUpdate="updateClose" />
-      <div
-        v-if="loader"
-        class="fixed w-full h-screen top-0 left-0 px-5"
-      >
-        <transition-loader />
+        <update-todos :dialogOpen="openDialogUpdate" :dataTodo="existUpdate" :dataUser="usersofgroup.user" @closeUpdate="updateClose" />
+        <div
+          v-if="loader"
+          class="fixed w-full h-screen top-0 left-0 px-5"
+        >
+          <transition-loader />
+        </div>
       </div>
     </div>
   </content-layout>

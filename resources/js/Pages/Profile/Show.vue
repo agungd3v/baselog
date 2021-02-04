@@ -20,11 +20,11 @@
                     <jet-section-border />
                 </div>
 
-                <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
+                <!-- <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
                     <two-factor-authentication-form class="mt-10 sm:mt-0" />
 
                     <jet-section-border />
-                </div>
+                </div> -->
 
                 <logout-other-browser-sessions-form :sessions="sessions" class="mt-10 sm:mt-0" />
 
@@ -43,7 +43,7 @@
     import DeleteUserForm from './DeleteUserForm'
     import JetSectionBorder from '@/Jetstream/SectionBorder'
     import LogoutOtherBrowserSessionsForm from './LogoutOtherBrowserSessionsForm'
-    import TwoFactorAuthenticationForm from './TwoFactorAuthenticationForm'
+    // import TwoFactorAuthenticationForm from './TwoFactorAuthenticationForm'
     import UpdatePasswordForm from './UpdatePasswordForm'
     import UpdateProfileInformationForm from './UpdateProfileInformationForm'
 
@@ -55,7 +55,7 @@
             DeleteUserForm,
             JetSectionBorder,
             LogoutOtherBrowserSessionsForm,
-            TwoFactorAuthenticationForm,
+            // TwoFactorAuthenticationForm,
             UpdatePasswordForm,
             UpdateProfileInformationForm,
         },
