@@ -43,7 +43,11 @@
             @dragstart="onDrag($event, item)"
             @click="updateOpen(item)"
           >
-            <div class="flex items-center justify-end mb-2">
+            <div class="flex items-center justify-between mb-3 mt-1">
+              <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
+                <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
+                <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
+              </div>
               <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
             </div>
             <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
@@ -95,7 +99,11 @@
             @dragstart="onDrag($event, item)"
             @click="updateOpen(item)"
           >
-            <div class="flex items-center justify-end mb-2">
+            <div class="flex items-center justify-between mb-3 mt-1">
+              <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
+                <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
+                <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
+              </div>
               <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
             </div>
             <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
@@ -147,7 +155,11 @@
             @dragstart="onDrag($event, item)"
             @click="updateOpen(item)"
           >
-            <div class="flex items-center justify-end mb-2">
+            <div class="flex items-center justify-between mb-3 mt-1">
+              <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
+                <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
+                <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
+              </div>
               <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
             </div>
             <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
@@ -196,7 +208,11 @@
             @dragstart="onDrag($event, item)"
             @click="updateOpen(item)"
           >
-            <div class="flex items-center justify-end mb-2">
+            <div class="flex items-center justify-between mb-3 mt-1">
+              <div v-if="item.due_date != null" class="w-8 h-8 border rounded overflow-hidden">
+                <div class="text-center font-semibold bg-blue-600 text-white" style="font-size: 10px">{{ convertMonth(item.due_date.split('-')[1].toString()) }}</div>
+                <div class="text-center font-semibold bg-blue-200" style="font-size: 10px">{{ item.due_date.split('-')[2].toString() }}</div>
+              </div>
               <span class="text-xs text-gray-400">{{ usersofgroup.name }}</span>
             </div>
             <h6 class="font-semibold leading-4 my-1">{{ item.title }}</h6>
@@ -226,6 +242,12 @@
         </div>
       </div>
       <update-todos :dialogOpen="openDialogUpdate" :dataTodo="existUpdate" :dataUser="usersofgroup.user" @closeUpdate="updateClose" />
+      <div
+        v-if="loader"
+        class="fixed w-full h-screen top-0 left-0 px-5"
+      >
+        <transition-loader />
+      </div>
     </div>
   </content-layout>
 </template>
@@ -233,17 +255,20 @@
 import ContentLayout from '@/Layouts/ContentLayout'
 import CreateTodos from '@/Components/CreateTodos'
 import UpdateTodos from '@/Components/UpdateTodos'
+import TransitionLoader from '@/Components/Loader/TransitionLoader'
 export default {
   components: {
     ContentLayout,
     CreateTodos,
-    UpdateTodos
+    UpdateTodos,
+    TransitionLoader
   },
   props: ['todolists', 'usersofgroup'],
   data() {
     return {
       openDialogUpdate: false,
-      existUpdate: {}
+      existUpdate: {},
+      loader: false
     }
   },
   computed: {
@@ -267,6 +292,7 @@ export default {
       evt.dataTransfer.setData('id', item.id)
     },
     onDrop(evt, list) {
+      this.loader = true
       const itemId = evt.dataTransfer.getData('id')
       const item = this.todolists.find(item => item.id == itemId)
       item.progress = list
@@ -274,7 +300,7 @@ export default {
     },
     async changeTodo(obj) {
       await axios.post('/todos/changetodos', obj).then((result) => {
-        console.log(result)
+        this.loader = false
       }).catch((err) => {
         console.error(err)
       });
@@ -289,6 +315,20 @@ export default {
     },
     entryTodo(newValue) {
       return this.todolists.push(newValue)
+    },
+    convertMonth(entry) {
+      if (entry == '01' || entry == '1') return 'Jan'
+      if (entry == '02' || entry == '2') return 'Feb'
+      if (entry == '03' || entry == '3') return 'Mar'
+      if (entry == '04' || entry == '4') return 'Apr'
+      if (entry == '05' || entry == '5') return 'May'
+      if (entry == '06' || entry == '6') return 'Jun'
+      if (entry == '07' || entry == '7') return 'Jul'
+      if (entry == '08' || entry == '8') return 'Aug'
+      if (entry == '09' || entry == '9') return 'Sep'
+      if (entry == '10') return 'Oct'
+      if (entry == '11') return 'Nov'
+      if (entry == '12') return 'Dec'
     }
   }
 }

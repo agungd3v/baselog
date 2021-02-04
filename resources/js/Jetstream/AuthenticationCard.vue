@@ -4,8 +4,13 @@
             <slot name="logo" />
         </div>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="w-full md:w-3/4 lg:w-1/2 px-3 mt-6 overflow-hidden">
             <slot />
         </div>
     </div>
 </template>
+<style>
+    html {
+        overflow-y: auto;
+    }
+</style>
