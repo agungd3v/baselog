@@ -16,7 +16,7 @@
             item-text="name"
             item-value="id"
             label="Assign To"
-            color="success"
+            color="primary"
             clearable
             chips
           >
@@ -29,7 +29,7 @@
                 @click:close="data.parent.selectItem(data.item)"
               >
                 <v-avatar
-                  class="success white--text"
+                  class="primary white--text"
                   left
                   v-text="data.item.name.slice(0, 1).toUpperCase()"
                 ></v-avatar>
@@ -39,14 +39,14 @@
           </v-combobox>
           <v-text-field
             v-model="cardExist.title"
-            color="success"
+            color="primary"
             label="Todo Title"
             hint="For example, testing todos one"
           ></v-text-field>
           <v-textarea
             v-model="cardExist.description"
             rows="3"
-            color="success"
+            color="primary"
           >
             <template v-slot:label>
               <div>
@@ -63,12 +63,12 @@
           >
             <v-radio
               label="No specific date"
-              color="success"
+              color="primary"
               :value="false"
             ></v-radio>
             <v-radio
               label="Set specific date"
-              color="success"
+              color="primary"
               :value="true"
               @click="openDate(true)"
             ></v-radio>
@@ -76,8 +76,8 @@
               v-if="dueDate"
               class="flex justify-end items-center text-sm"
             >
-              <v-icon color="success">mdi-calendar</v-icon>
-              <span class="ml-1 text-success">{{ new Date(cardExist.due_date).toISOString().substr(0, 10) }}</span>
+              <v-icon color="primary">mdi-calendar</v-icon>
+              <span class="ml-1 text-primary">{{ new Date(cardExist.due_date).toISOString().substr(0, 10) }}</span>
             </div>
           </v-radio-group>
         </v-card-text>
@@ -85,7 +85,7 @@
           <v-spacer></v-spacer>
           <v-btn
             class="focus:outline-none"
-            color="green darken-1"
+            color="primary darken-1"
             text
             @click="closeUpdate(false)"
           >
@@ -93,7 +93,7 @@
           </v-btn>
           <v-btn
             class="focus:outline-none"
-            color="green darken-1"
+            color="primary darken-1"
             text
             :loading="loading"
             :disabled="loading"
@@ -108,7 +108,7 @@
         max-width="290"
       >
         <v-card>
-          <v-date-picker v-model="cardExist.due_date" color="success" class="focus:outline-none"></v-date-picker>
+          <v-date-picker v-model="cardExist.due_date" color="primary" class="focus:outline-none"></v-date-picker>
         </v-card>
       </v-dialog>
     </v-dialog>

@@ -47,10 +47,10 @@ export default {
       dialog: false
     }
   },
-  props: ['needGroups'],
+  props: ['needGroups', 'groupingWorker'],
   computed: {
     reverseWorkers() {
-      return [...this.workers].reverse()
+      return [...this.workers.filter(data => data.group.created_by == this.groupingWorker.id)].reverse()
     }
   },
   mounted(){

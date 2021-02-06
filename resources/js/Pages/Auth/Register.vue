@@ -1,75 +1,83 @@
 <template>
     <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
 
         <jet-validation-errors class="mb-4" />
 
-        <form @submit.prevent="submit">
-            <div>
-                <jet-label for="name" value="Name" />
-                <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
+        <div class="w-full flex flex-col md:flex-row bg-white rounded shadow-sm relative overflow-hidden">
+            <div class="w-full md:w-1/2 p-5 relative">
+                <register-cover />
             </div>
-
-            <div class="mt-4">
-                <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required />
-            </div>
-
-            <div class="mt-4">
-                <jet-label for="password" value="Password" />
-                <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4">
-                <jet-label for="password_confirmation" value="Confirm Password" />
-                <jet-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4" v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
-                <jet-label for="terms">
-                    <div class="flex items-center">
-                        <jet-checkbox name="terms" id="terms" v-model="form.terms" />
-
-                        <div class="ml-2">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Privacy Policy</a>
+            <div class="w-full md:w-1/2 pl-5 pr-10 py-5 md:py-20">
+                <div class="mb-10 text-right">
+                    <a href="/" class="text-3xl font-bold text-blue-700">BaseLog</a>
+                </div>
+                <v-app>
+                    <form @submit.prevent="submit">
+                        <div class="flex items-center mb-5">
+                            <span class="mdi mdi-account text-blue-700 px-2"></span>
+                            <input
+                                type="text"
+                                class="px-1 py-1 w-full border-custom text-sm bg-transparent"
+                                placeholder="Fullname"
+                                v-model="form.name"
+                            >
                         </div>
-                    </div>
-                </jet-label>
+                        <div class="flex items-center mb-5">
+                            <span class="mdi mdi-email text-blue-700 px-2"></span>
+                            <input
+                                type="email"
+                                class="px-1 py-1 w-full border-custom text-sm bg-transparent"
+                                placeholder="Email address"
+                                v-model="form.email"
+                            >
+                        </div>
+                        <div class="flex items-center mb-5">
+                            <span class="mdi mdi-key text-blue-700 px-2"></span>
+                            <input
+                                type="password"
+                                class="px-1 py-1 w-full border-custom text-sm bg-transparent"
+                                placeholder="Password"
+                                v-model="form.password"
+                            >
+                        </div>
+                        <div class="flex items-center mb-8">
+                            <span class="mdi mdi-key-chain text-blue-700 px-2"></span>
+                            <input
+                                type="password"
+                                class="px-1 py-1 w-full border-custom text-sm bg-transparent"
+                                placeholder="Confirm password"
+                                v-model="form.password_confirmation"
+                            >
+                        </div>
+                        <div class="text-right">
+                            <v-btn
+                                depressed
+                                small
+                                class="focus:outline-none"
+                                color="primary"
+                                type="submit"
+                                :disabled="form.processing"
+                            >
+                                Register
+                            </v-btn>
+                        </div>
+                    </form>
+                </v-app>
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <inertia-link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Already registered?
-                </inertia-link>
-
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </jet-button>
-            </div>
-        </form>
+        </div>
     </jet-authentication-card>
 </template>
 
 <script>
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo'
-    import JetButton from '@/Jetstream/Button'
-    import JetInput from '@/Jetstream/Input'
-    import JetCheckbox from "@/Jetstream/Checkbox";
-    import JetLabel from '@/Jetstream/Label'
     import JetValidationErrors from '@/Jetstream/ValidationErrors'
+    import RegisterCover from '@/Components/RegisterCover'
 
     export default {
         components: {
             JetAuthenticationCard,
-            JetAuthenticationCardLogo,
-            JetButton,
-            JetInput,
-            JetCheckbox,
-            JetLabel,
-            JetValidationErrors
+            JetValidationErrors,
+            RegisterCover
         },
 
         data() {
@@ -80,7 +88,7 @@
                     password: '',
                     password_confirmation: '',
                     iam: 'Administrator',
-                    terms: false,
+                    terms: true,
                 })
             }
         },
@@ -94,3 +102,14 @@
         }
     }
 </script>
+<style lang="css">
+    .v-application--wrap {
+        min-height: 0 !important;
+    }
+    [type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
+        --tw-ring-shadow: none !important;
+    }
+    .border-custom {
+        border-bottom: 1px solid #333;
+    }
+</style>

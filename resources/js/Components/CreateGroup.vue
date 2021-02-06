@@ -35,7 +35,7 @@
           small
           class="focus:outline-none mt-2"
           color="primary"
-          :disabled="title == null || title == ''"
+          :disabled="title == null || title == '' || loadCreate"
           @click="createGroup"
         >
           Create Group
@@ -64,7 +64,8 @@ export default {
   data() {
     return {
       title: null,
-      groups: []
+      groups: [],
+      loadCreate: false,
     }
   },
   computed: {
@@ -85,11 +86,13 @@ export default {
       });
     },
     async createGroup() {
+      this.loadCreate = true
       await axios.post('/groups/create', {
         title: this.title,
         userId: this.userId
       }).then((result) => {
         this.title = null
+        this.loadCreate = false
         this.groups.push(result.data.message)
       }).catch((err) => {
         console.error(err)

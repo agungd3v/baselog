@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class WorkerController extends Controller
 {
     public function index() {
+        $worker = User::with(['group'])->where('iam_is', 'Worker')->get();
         return response()->json([
             'status' => true,
-            'message' => User::with(['group'])->where('iam_is', 'Worker')->get()
+            'message' => $worker
         ]);
     }
     public function create(Request $request) {

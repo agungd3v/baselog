@@ -14,23 +14,28 @@
             </div>
             <div class="w-full md:w-1/2 pl-5 pr-10 py-5 md:py-20">
                 <div class="mb-10 text-right">
-                    <a href="/" class="text-3xl font-bold text-blue-800">BaseLog</a>
+                    <a href="/" class="text-3xl font-bold text-blue-700">BaseLog</a>
                 </div>
                 <v-app>
                     <form @submit.prevent="submit">
-                        <v-text-field
-                            label="Email"
-                            prepend-icon="mdi-email"
-                            v-model="form.email"
-                            required
-                        ></v-text-field>
-                        <v-text-field
-                            label="Password"
-                            type="password"
-                            prepend-icon="mdi-key"
-                            v-model="form.password"
-                            required
-                        ></v-text-field>
+                        <div class="flex items-center mb-5">
+                            <span class="mdi mdi-email text-blue-700 px-2"></span>
+                            <input
+                                type="email"
+                                class="px-1 py-1 w-full border-custom text-sm bg-transparent"
+                                placeholder="Email address"
+                                v-model="form.email"
+                            >
+                        </div>
+                        <div class="flex items-center mb-8">
+                            <span class="mdi mdi-key text-blue-700 px-2"></span>
+                            <input
+                                type="password"
+                                class="px-1 py-1 w-full border-custom text-sm bg-transparent"
+                                placeholder="Password"
+                                v-model="form.password"
+                            >
+                        </div>
                         <div class="text-right">
                             <v-btn
                                 depressed
@@ -98,7 +103,7 @@
     [type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
         --tw-ring-shadow: none !important;
     }
-    .v-text-field {
-        padding-top: 0 !important;
+    .border-custom {
+        border-bottom: 1px solid #333;
     }
 </style>
