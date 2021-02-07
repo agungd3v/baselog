@@ -20,7 +20,7 @@
         </div>
         <div class="w-full h-screen">
             <background-default />
-            <div class="absolute text--wrap">
+            <div class="absolute text--wrap" v-if="this.$vuetify.breakpoint.width >= 512">
                 <h1 class="text-4xl font-bold underline pb-3">BaseLog</h1>
                 <h5 class="text-2xl leading-6 tracking-wider">Stay productive even though the situation is a pandemic with <span class="font-semibold text-blue-700">BaseLog</span></h5>
                 <div v-if="$page.props.user" class="mt-10">
@@ -29,6 +29,21 @@
                 </div>
                 <div v-else class="mt-10">
                     <button-visit url="/register" title="Getting Started" />
+                </div>
+            </div>
+            <div class="absolute w-full top-0 px-5 h-screen flex flex-col justify-between" v-else>
+                <div class="pb-5 pt-14">
+                    <h1 class="text-3xl text-center font-bold mb-3">BaseLog</h1>
+                    <h5 class="text-lg text-center leading-6 tracking-wider">Stay productive even though the situation is a pandemic with <span class="font-semibold text-blue-700">BaseLog</span></h5>
+                </div>
+                <div class="pb-28 pt-5">
+                    <div v-if="$page.props.user" class="mt-10 text-center">
+                        <button-visit v-if="$page.props.user.iam_is == 'Worker'" url="/baseon" title="Launch Application" />
+                        <button-visit v-else url="/dashboard" title="Go Dashboard" />
+                    </div>
+                    <div v-else class="mt-10 text-center">
+                        <button-visit url="/register" title="Getting Started" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -120,6 +135,9 @@ import ButtonVisit from '@/Components/ButtonVisit'
             canRegister: Boolean,
             laravelVersion: String,
             phpVersion: String,
+        },
+        mounted() {
+            console.log(this.$vuetify.breakpoint.width)
         },
         methods: {
             logout() {
