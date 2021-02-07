@@ -6,6 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
         <meta property="og:title" content="BaseLog" />
+        <meta property="og:description" content="ReCloudChallenges Indonesia | Enabling Happiness and Productivity at Home #stayathome" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="{{ config('app.url') }}" />
         <meta property="og:image" content="{{ asset('favicon.ico') }}" />
