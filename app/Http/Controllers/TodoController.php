@@ -20,6 +20,7 @@ class TodoController extends Controller
         $todo->due_date = $request['duedate'];
         $todo->progress = $request['progress'];
         $todo->save();
+        
         return response()->json([
             'status' => true,
             'message' => $todo
