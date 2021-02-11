@@ -25,6 +25,15 @@
                         <div class="flex items-center mb-5">
                             <span class="mdi mdi-email text-blue-700 px-2"></span>
                             <input
+                                type="text"
+                                class="px-1 py-1 w-full border-custom text-sm bg-transparent"
+                                placeholder="Username"
+                                v-model="form.username"
+                            >
+                        </div>
+                        <div class="flex items-center mb-5">
+                            <span class="mdi mdi-email text-blue-700 px-2"></span>
+                            <input
                                 type="email"
                                 class="px-1 py-1 w-full border-custom text-sm bg-transparent"
                                 placeholder="Email address"
@@ -84,6 +93,7 @@
             return {
                 form: this.$inertia.form({
                     name: '',
+                    username: '',
                     email: '',
                     password: '',
                     password_confirmation: '',

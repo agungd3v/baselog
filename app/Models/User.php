@@ -18,6 +18,9 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    const ROLE_ADMIN = 'administrator';
+    const ROLE_WORKER = 'worker';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +28,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
         'iam_is',
@@ -63,5 +67,13 @@ class User extends Authenticatable
 
     public function group() {
         return $this->belongsTo(Group::class, 'group_id', 'id');
+    }
+
+    public static function getRole()
+    {
+        return [
+            self::ROLE_ADMIN,
+            self::ROLE_WORKER,
+        ];
     }
 }

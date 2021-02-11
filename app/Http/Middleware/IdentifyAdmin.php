@@ -17,8 +17,7 @@ class IdentifyAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        $allowUser = Auth::user()->iam_is;
-        if ($allowUser != 'Administrator') {
+        if ($request->user()->iam_is != 'administrator') {
             return redirect('/');
         }
         return $next($request);
