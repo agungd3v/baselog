@@ -19,7 +19,5 @@ class UsersTableSeeder extends Seeder
             'username' => 'testing',
             'iam_is' => User::ROLE_ADMIN,
         ]);
-
-        User::factory(5)->create();
     }
 }
