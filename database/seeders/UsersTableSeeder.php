@@ -20,6 +20,12 @@ class UsersTableSeeder extends Seeder
             'iam_is' => User::ROLE_ADMIN,
         ]);
 
+        User::factory(1)->create([
+            'email' => 'worker@email.com',
+            'username' => 'worker',
+            'iam_is' => User::ROLE_WORKER,
+        ]);
+
         User::factory(5)->create();
     }
 }
