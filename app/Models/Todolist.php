@@ -14,4 +14,8 @@ class Todolist extends Model
     public function group() {
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'assign_to', 'id');
+    }
 }

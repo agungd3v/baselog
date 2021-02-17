@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
         Route::get('/', [WorkerController::class, 'index']);
         Route::post('/create', [WorkerController::class, 'create']);
     });
+    
+    Route::get('/todo/json', [TodoController::class, 'json']);
 });
 
 

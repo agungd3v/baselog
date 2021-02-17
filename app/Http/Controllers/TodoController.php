@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Models\Todolist;
 use App\Models\User;
@@ -57,6 +58,13 @@ class TodoController extends Controller
         return response()->json([
             'status' => true,
             'message' => $todo
+        ]);
+    }
+    public function json(Request $request) {
+        $data = Group::with(['user.todo'])->where('created_by', $request['created_by'])->get();
+        return response()->json([
+            'status' => true,
+            'message' => $data
         ]);
     }
 }

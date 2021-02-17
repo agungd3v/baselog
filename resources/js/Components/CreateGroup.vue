@@ -22,7 +22,7 @@
               <td>
                 <div class="flex justify-end items-center gap-2">
                   <update-group :group="group" @groupUpdated="groupChanges" />
-                  <delete-group :group="group" @groupDeleted="groupDeleted" />
+                  <!-- <delete-group :group="group" @groupDeleted="groupDeleted" /> -->
                 </div>
               </td>
             </tr>

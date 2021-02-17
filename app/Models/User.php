@@ -69,6 +69,10 @@ class User extends Authenticatable
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 
+    public function todo() {
+        return $this->hasMany(Todolist::class, 'assign_to', 'id');
+    }
+
     public static function getRole()
     {
         return [

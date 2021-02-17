@@ -38,6 +38,10 @@
                 </div>
             </div>
         </div>
+
+        <div class="py-6 sm:px-10 bg-white border-t border-gray-200">
+            <progres-cards :user="user" />
+        </div>
     </div>
 </template>
 
@@ -45,12 +49,14 @@
     // import JetApplicationLogo from '@/Jetstream/ApplicationLogo'
     import CreateGroup from '@/Components/CreateGroup'
     import CreateWorker from '@/Components/CreateWorker'
+    import ProgresCards from '@/Components/ProgresCards'
 
     export default {
         components: {
             // JetApplicationLogo,
             CreateGroup,
-            CreateWorker
+            CreateWorker,
+            ProgresCards
         },
         data() {
             return {

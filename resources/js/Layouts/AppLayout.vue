@@ -13,6 +13,7 @@
                                 <inertia-link :href="route('dashboard')">
                                     <img src="/baseicon.png" alt="baselogo" class="w-12">
                                 </inertia-link>
+                                <span class="ml-2 text-blue-500 text-2xl font-semibold">BaseLog</span>
                             </div>
 
                             <!-- Navigation Links -->

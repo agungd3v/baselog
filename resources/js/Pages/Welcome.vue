@@ -136,9 +136,6 @@ import ButtonVisit from '@/Components/ButtonVisit'
             laravelVersion: String,
             phpVersion: String,
         },
-        mounted() {
-            console.log(this.$vuetify.breakpoint.width)
-        },
         methods: {
             logout() {
                 this.$inertia.post(route('logout'));

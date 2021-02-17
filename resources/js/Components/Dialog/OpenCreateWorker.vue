@@ -26,7 +26,7 @@
         v-slot="{ invalid }"
       >
         <v-card-text>
-          <form @submit.prevent="submit">
+          <form @submit.prevent="createWorker">
             <validation-provider
               v-slot="{ errors }"
               name="select"
@@ -79,6 +79,7 @@
                 :error-messages="errors"
                 label="Password"
                 type="password"
+                hint="at least 8 characters"
                 required
               ></v-text-field>
             </validation-provider>
@@ -95,13 +96,13 @@
             Cancel
           </v-btn>
           <v-btn
-            :disabled="invalid || name == '' || email == '' || password == '' || selectedGroup == null"
+            :disabled="invalid || name == '' || email == '' || password == '' || selectedGroup == null || submitDisabled"
             color="primary"
             text
             class="focus:outline-none"
             @click="createWorker"
           >
-            Save Changes
+            Create
           </v-btn>
         </v-card-actions>
       </validation-observer>
@@ -140,6 +141,7 @@ export default {
     password: '',
     selectedGroup: null,
     dialog: false,
+    submitDisabled: false
   }),
   props: ['groups'],
   computed: {
@@ -149,8 +151,10 @@ export default {
   },
   methods: {
     async createWorker() {
+      this.submitDisabled = true
       await axios.post('/workers/create', {
         name: this.name,
+        username: this.email.split('@')[0].toString(),
         email: this.email,
         password: this.password,
         iam: 'Worker',
@@ -158,9 +162,10 @@ export default {
       }).then((result) => {
         this.$emit('workerCreated', result.data.message)
         this.dialog = false
+        this.submitDisabled = false
         this.clear()
       }).catch((err) => {
-        console.err(err)
+        console.error(err)
       })
     },
     clear () {
